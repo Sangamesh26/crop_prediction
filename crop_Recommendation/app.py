@@ -9,7 +9,6 @@ Created on Thu May 20 21:01:58 2021
 from flask import Flask, render_template, request
 import pickle
 import numpy as np
-import config
 import requests
 
 # Load the Random Forest CLassifier model
@@ -25,7 +24,8 @@ def weather_fetch(city_name):
     :params: city_name
     :return: temperature, humidity
     """
-    api_key = config.weather_api_key
+    #api_key = config.weather_api_key
+    api_key = "da40508271bb7dbebf832f89e3a02aa3"
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
 
     complete_url = base_url + "appid=" + api_key + "&q=" + city_name
@@ -62,6 +62,8 @@ def predict():
 
         if weather_fetch(city) != None:
             temperature, humidity = weather_fetch(city)
+            print(temperature)
+            print(humidity)
             data = np.array([[n, p, k, temperature, humidity, ph, rain]])
             my_prediction = classifier.predict(data)
             final_prediction = my_prediction[0]
